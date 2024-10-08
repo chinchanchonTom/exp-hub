@@ -1,0 +1,4 @@
+conteiner_count: 4
+default_conteiner_name: docker
+default_container_image: ubuntu
+default_container_command: sleep 1

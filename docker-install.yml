@@ -1,0 +1,63 @@
+---
+- name: install docker in debian
+  hosts: testserver
+  become: true
+  gather_facts: false
+
+  vars_files:
+    - docker_vars.yml
+
+
+  tasks:
+    - name: install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+
+    - name: Install curl and update_cache
+      ansible.builtin.apt:
+        pkg: 
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: latest
+        update_cache: true
+    
+    - name: add docker GPG apt key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: add Docker repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian bookworm stable 
+        state: present
+    
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+    
+    - name: install Docker Module for Python 
+      ansible.builtin.pip:
+        name: docker
+
+    - name: Pull default Docker image
+      community.docker.docker_image:
+        name: "{{ default_conteiner_name }}"
+        source: pull
+
+    - name: Create default conteiner 
+      community.docker.docker_container:
+        name: "{{ default_conteiner_name }}{{ item  }}"
+        image: "{{ default_container_image }}"
+        command: "{{ default_container_command }}"
+        state: present
+      with_sequence: count={{ conteiner_count }}

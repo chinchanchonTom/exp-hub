@@ -1,0 +1,4 @@
+ansible.cfg
+.vscode/settings.json
+files/nginx.crt
+files/nginx.key
