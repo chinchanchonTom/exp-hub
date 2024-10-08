@@ -1,0 +1,10 @@
+---
+- name: Configure webserver with nginx and TLS
+  hosts: all
+  become: True
+  gather_facts: True
+  roles:
+    - install_nginx
+
+
+  
