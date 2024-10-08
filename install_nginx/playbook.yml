@@ -5,14 +5,8 @@
   gather_facts: True
 
   vars_files:
-    - nginx.yml
+    - vars/main.yml
 
-
-  handlers:
-    - name: Restart Nginx
-      service:
-        name: nginx
-        state: restarted
 
   tasks:
     - name: Ensure nginx is installed

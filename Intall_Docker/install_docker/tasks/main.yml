@@ -1,11 +1,11 @@
 ---
 - name: install docker in debian
-  hosts: testserver
+  hosts: all
   become: true
   gather_facts: false
 
   vars_files:
-    - docker_vars.yml
+    - group_vars/docker_vars.yml
 
 
   tasks:

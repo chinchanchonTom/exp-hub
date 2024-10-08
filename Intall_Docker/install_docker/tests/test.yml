@@ -1,0 +1,8 @@
+---
+    - name: Create default conteiner 
+      community.docker.docker_container:
+        name: "{{ default_conteiner_name }}{{ item  }}"
+        image: "{{ default_container_image }}"
+        command: "{{ default_container_command }}"
+        state: present
+      with_sequence: count={{ conteiner_count }}
