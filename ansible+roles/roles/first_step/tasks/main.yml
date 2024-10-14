@@ -1,0 +1,37 @@
+---
+- name: Setup passwordless sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Install ssh,htop,git,curl
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - openssh-server
+    - htop 
+    - git 
+    - curl
+
+- name: add user 
+  user:
+    name: maksim
+    create_home: true
+    shell: /bin/bash
+    groups: 
+      - users
+      - sudo
+    state: present
+
+- name: Add ssh key
+  authorized_key:
+    user: maksim
+    state: present
+    key: "{{ lookup('file', '/home/maksim/.ssh/id_rsa.pub') }}"
+
+

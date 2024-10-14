@@ -1,0 +1,40 @@
+---
+- name: Install FTP and UWF
+  package: "name={{ item }} state=present"
+  with_items: "{{ vsftpd_packages }}"
+
+- name: Add user FTP
+  user:
+    name: ftp_user # user_ftp
+    shell: /bin/bash
+    comment: ftp user 
+    group: sudo 
+
+- name: Add user to conf ftp 
+  lineinfile:
+    dest: /etc/vsftpd.userlist 
+    line: ftp_user
+    state: present
+    create: true 
+
+- name:  Create directory with persistens 
+  file:
+   path: /home/ftp_user/ftp_dir # ftp_dir
+   owner: ftp_user
+   state: directory
+   mode: 750
+
+- name: Create backup config 
+  copy:
+    src: /etc/vsftpd.conf # conf_ftp
+    dest: /etc/vsftpd.conf.backup # backup
+    mode: 0755
+    owner: root
+
+- name: Copy config
+  template:
+    dest: /etc/vsftpd.conf
+    src: vsftpd.conf.j2
+  notify:
+    - Restart Vsftpd services. 
+

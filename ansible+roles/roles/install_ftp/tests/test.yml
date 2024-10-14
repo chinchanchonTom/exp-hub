@@ -1,0 +1,9 @@
+---
+- name: Check status vsftpd
+  command: systemctl status vsftpd
+  register: result 
+  ignore_errors: true
+
+- name: Show status vsftpd
+  debug:
+    var: result
