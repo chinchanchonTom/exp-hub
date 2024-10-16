@@ -2,3 +2,17 @@
 vsftpd_packages:
     - vsftpd
     - ufw 
+
+vsftpd_listen_port: 21
+vsftpd_xferlog_file: '/var/log/xferlog'
+vsftpd_log_file: '/var/log/vsftpd.log'
+# vsftpd_local_umask: 22
+
+#vsftpd_pasv_min_port:
+#vsftpd_pasv_min_port:
+
+vsftpd_syslog_enable: NO
+vsftpd_banner: 'Welcome my ftp server and journey to ....'
+
+vsftpd_share_path: '/ftp_share'
+

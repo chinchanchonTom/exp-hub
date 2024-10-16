@@ -1,6 +1,6 @@
 ---
 - name: install ftp and configure 
-  hosts: localhost
+  hosts: webserver
   become: true
   gather_facts: true
   roles:
